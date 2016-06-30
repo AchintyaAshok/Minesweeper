@@ -1,44 +1,58 @@
 <div id='homeView'>
   <!-- <p class='lead'>Play your game</p> -->
-  <div class='container' id='board'>
-      <div class='col-md-2 padding'></div>
-      <!-- minesweeper board goes here -->
-      <div class='text-centered col-md-8'>
+  <div class='container col-md-12' id='board'>
+      <div class='row col-md-12'>
+        <div class='well well-lg'>
+          <p class='lead'>Minesweeper</p>
+          <p class='text-info'>Click anywhere on the board to begin. The objective is the game is to fill out the entire board without hitting a mine.</p>
+          <p>Board Size: {{boardSize}}x{{boardSize}}</p>
+        </div>
       </div>
-      <table>
-        <thead>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-        </thead>
-          <tr class='minesweeper-row'>
-            <td><a class='btn btn-small'>x</a></td>
-            <td><a class='btn btn-small'>x</a></td>
-            <td><a class='btn btn-small'>x</a></td>
-            <td><a class='btn btn-small'>x</a></td>
-          </tr>
-          <tr class='minesweeper-row'>
-            <td><a class='btn btn-small'>x</a></td>
-            <td><a class='btn btn-small'>x</a></td>
-            <td><a class='btn btn-small'>x</a></td>
-            <td><a class='btn btn-small'>x</a></td>
-          </tr>
-          <tr class='minesweeper-row'>
-            <td><a class='btn btn-small'>x</a></td>
-            <td><a class='btn btn-small'>x</a></td>
-            <td><a class='btn btn-small'>x</a></td>
-            <td><a class='btn btn-small'>x</a></td>
-          </tr>
-          <tr class='minesweeper-row'>
-            <td><a class='btn btn-small'>x</a></td>
-            <td><a class='btn btn-small'>x</a></td>
-            <td><a class='btn btn-small'>x</a></td>
-            <td><a class='btn btn-small'>x</a></td>
-          </tr>
-        <tbody>
-        </tbody>
-      </table>
-  </div>
-  <div class='col-md-2 padding'></div>
+      <div class='row col-md-12'>
+        <div class='col-md-2 padding'></div>
+        <!-- minesweeper board goes here -->
+        <div class='text-centered col-md-8'>
+        </div>
+          <pre>{{boardElements}}</pre>
+          <table>
+            <thead>
+              <tr ng-repeat="row in boardElements"><th></th></tr>
+              <!-- dynamically determine the number of headers you can have. -->
+              <!-- <th ng-repeat='elem in boardSize'>{{elem}}</th> -->
+              <!-- <th></th>
+              <th></th>
+              <th></th> -->
+            </thead>
+            <tbody>
+              <tr class='minesweeper-row' ng-repeat='row in boardElements track by $index'>
+                <td ng-repeat='positionValue in row track by $index'>
+                    <a class='btn btn-small'>{{positionValue}}</a>
+                </td>
+                <!-- <td><a class='btn btn-small'>x</a></td>
+                <td><a class='btn btn-small'>x</a></td>
+                <td><a class='btn btn-small'>x</a></td> -->
+              </tr>
+              <!-- <tr class='minesweeper-row'>
+                <td><a class='btn btn-small'>x</a></td>
+                <td><a class='btn btn-small'>x</a></td>
+                <td><a class='btn btn-small'>x</a></td>
+                <td><a class='btn btn-small'>x</a></td>
+              </tr>
+              <tr class='minesweeper-row'>
+                <td><a class='btn btn-small'>x</a></td>
+                <td><a class='btn btn-small'>x</a></td>
+                <td><a class='btn btn-small'>x</a></td>
+                <td><a class='btn btn-small'>x</a></td>
+              </tr>
+              <tr class='minesweeper-row'>
+                <td><a class='btn btn-small'>x</a></td>
+                <td><a class='btn btn-small'>x</a></td>
+                <td><a class='btn btn-small'>x</a></td>
+                <td><a class='btn btn-small'>x</a></td>
+              </tr> -->
+            </tbody>
+          </table>
+      </div>
+      <div class='col-md-2 padding'></div>
+      </div>
 </div>
