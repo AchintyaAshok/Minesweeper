@@ -5,7 +5,7 @@
         <div class='well well-lg'>
           <p class='lead'>Minesweeper</p>
           <p class='text-info'>Click anywhere on the board to begin. The objective is the game is to fill out the entire board without hitting a mine.</p>
-          <p>Board Size: {{boardSize}}x{{boardSize}}</p>
+          <p>Board Size: <em>{{boardSize}}x{{boardSize}}</em></p>
         </div>
       </div>
       <div class='row col-md-12'>
@@ -17,39 +17,16 @@
           <table>
             <thead>
               <tr ng-repeat="row in boardElements"><th></th></tr>
-              <!-- dynamically determine the number of headers you can have. -->
-              <!-- <th ng-repeat='elem in boardSize'>{{elem}}</th> -->
-              <!-- <th></th>
-              <th></th>
-              <th></th> -->
             </thead>
             <tbody>
-              <tr class='minesweeper-row' ng-repeat='row in boardElements track by $index'>
-                <td ng-repeat='positionValue in row track by $index'>
-                    <a class='btn btn-small'>{{positionValue}}</a>
+              <tr class='minesweeper-row text-center' ng-repeat='(rowIndex, row) in boardElements track by $index'>
+                <td class='text-center' ng-repeat='(valIndex, val) in row track by $index'>
+                    <a class='btn btn-small'
+                      ng-click='evaluatePosition(rowIndex, valIndex)'
+                      >{{val}}
+                    </a>
                 </td>
-                <!-- <td><a class='btn btn-small'>x</a></td>
-                <td><a class='btn btn-small'>x</a></td>
-                <td><a class='btn btn-small'>x</a></td> -->
               </tr>
-              <!-- <tr class='minesweeper-row'>
-                <td><a class='btn btn-small'>x</a></td>
-                <td><a class='btn btn-small'>x</a></td>
-                <td><a class='btn btn-small'>x</a></td>
-                <td><a class='btn btn-small'>x</a></td>
-              </tr>
-              <tr class='minesweeper-row'>
-                <td><a class='btn btn-small'>x</a></td>
-                <td><a class='btn btn-small'>x</a></td>
-                <td><a class='btn btn-small'>x</a></td>
-                <td><a class='btn btn-small'>x</a></td>
-              </tr>
-              <tr class='minesweeper-row'>
-                <td><a class='btn btn-small'>x</a></td>
-                <td><a class='btn btn-small'>x</a></td>
-                <td><a class='btn btn-small'>x</a></td>
-                <td><a class='btn btn-small'>x</a></td>
-              </tr> -->
             </tbody>
           </table>
       </div>

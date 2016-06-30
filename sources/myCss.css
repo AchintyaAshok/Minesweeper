@@ -1,5 +1,13 @@
+.minesweeper-row{
+  height: 100px;
+}
 .minesweeper-row td
 {
   border: solid 0.5px black;
   padding: 10px;
+  width: 100px;
+}
+
+.hidden{
+  background-color: gray;
 }
