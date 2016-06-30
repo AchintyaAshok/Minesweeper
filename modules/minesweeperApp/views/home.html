@@ -9,10 +9,8 @@
         </div>
       </div>
       <div class='row col-md-12'>
-        <div class='col-md-2 padding'></div>
         <!-- minesweeper board goes here -->
         <div class='text-centered col-md-8'>
-        </div>
           <pre>{{boardElements}}</pre>
           <table>
             <thead>
@@ -20,16 +18,21 @@
             </thead>
             <tbody>
               <tr class='minesweeper-row text-center' ng-repeat='(rowIndex, row) in boardElements track by $index'>
-                <td class='text-center' ng-repeat='(valIndex, val) in row track by $index'>
-                    <a class='btn btn-small'
-                      ng-click='evaluatePosition(rowIndex, valIndex)'
+                <td class='text-center'
+                ng-repeat='(valIndex, val) in row track by $index'
+                ng-click='evaluatePosition(rowIndex, valIndex)'
+                >
+                    <a ng-show='exposedView[rowIndex][valIndex]' class='btn btn-small'
                       >{{val}}
+                    </a>
+                    <a ng-hide='exposedView[rowIndex][valIndex]' class='btn btn-small'
+                      >?
                     </a>
                 </td>
               </tr>
             </tbody>
           </table>
       </div>
-      <div class='col-md-2 padding'></div>
+      <div class='col-md-4' id='board-status-content' style='border-left: solid 0.25px black'></div>
       </div>
 </div>
