@@ -1,0 +1,47 @@
+<div id='homeView'>
+  <!-- <p class='lead'>Play your game</p> -->
+  <div class='container col-md-12' id='board'>
+      <div class='row col-md-12'>
+        <div class='well well-lg'>
+          <p class='lead'>Minesweeper</p>
+          <p class='text-info'>Click anywhere on the board to begin. The objective is the game is to fill out the entire board without hitting a mine.</p>
+          <p>Board Size: <em>{{numRows}}x{{numCols}}</em></p>
+        </div>
+      </div>
+      <div class='row col-md-12'>
+        <!-- minesweeper board goes here -->
+        <!-- <div class='text-centered col-md-8'> -->
+          <table>
+            <thead>
+              <th ng-repeat="row in boardElements"></th>
+            </thead>
+            <tbody>
+              <tr class='minesweeper-row text-center'
+              ng-repeat='(rowIndex, row) in boardElements track by $index'
+              >
+                <td class='text-center'
+                ng-repeat='(valIndex, val) in row track by $index'
+                ng-click='evaluatePosition(rowIndex, valIndex)'
+                ng-class="{'grayed-out': exposedView[rowIndex][valIndex] === false}"
+                >
+                    <a ng-show='exposedView[rowIndex][valIndex]'
+                    class='btn btn-small'
+                    style="color:rgb({{colorMap[val]}});"
+                      ><b>{{val}}</b>
+                    </a>
+                    <a ng-hide='exposedView[rowIndex][valIndex]' class='btn btn-small'
+                      >
+                    </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <hr/>
+      </div>
+      <div class='col-md-12' id='board-status-content'>
+        <h4><b class='text-primary'>Board Size</b> {{boardSize}}</h4>
+        <h4><b class='text-primary'>Number of Mines</b> {{numMines}}</h4>
+        <h4><b class='text-primary'>Moves Made</b> {{movesMade}}</h4>
+        <pre>{{colorMap}}</pre>
+      </div>
+</div>
