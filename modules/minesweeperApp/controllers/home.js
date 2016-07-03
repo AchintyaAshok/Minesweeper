@@ -20,7 +20,28 @@ app.controller("HomeController", ['$scope', function($scope){
     $scope.boardSize      = 0; // this is the number of rows and columns.
     $scope.numMines       = 0; // the number of mines on the board
     $scope.numPositionsExposed = 0;
-    $scope.colorMap = {};
+
+    // POSSIBLE POINTS
+    const ONE_MINE    = 1;
+    const TWO_MINES   = 2;
+    const THREE_MINES = 3;
+    const FOUR_MINES  = 4;
+    const FIVE_MINES  = 5;
+    const SIX_MINES   = 6;
+    const SEVEN_MINES = 7;
+    const EIGHT_MINES = 8;
+
+    // The standard colors for each number in minesweeper
+    $scope.colorMap = [
+      "white",    // zero mines are adjacent
+      "blue",     // one mine is adjacent
+      "darkred",  // two mines are adjacent
+      "darkblue", // etc.
+      "brown",
+      "cyan",
+      "black",
+      "grey"
+    ];
 
     /* Expose the element indexed by the parameters. Also
     kick off any post processing required after the element
@@ -153,18 +174,16 @@ app.controller("HomeController", ['$scope', function($scope){
         gridWithMines.push(row);
       }
 
-      // initialize colors to help distinguish cells
-      $scope.colorMap[MINE] = "255, 0, 0";  // RED
-      $scope.colorMap[0] = "255, 255, 255"; // WHITE so that it doesn't show up
-
       // randomly place mines in the grid
       var numPlaced = 0;
       while(numPlaced < numberOfMines){
-        var randRow = Math.ceil(Math.random() * ($scope.numRows-1));
-        var randCol = Math.ceil(Math.random() * ($scope.numCols-1));
-        gridWithMines[randRow][randCol] = MINE;
-        gridWithMines = adjustAroundPosition(gridWithMines, randRow, randCol);
-        numPlaced++;
+        var randRow = Math.floor(Math.random() * ($scope.numRows-1));
+        var randCol = Math.floor(Math.random() * ($scope.numCols-1));
+        if(gridWithMines[randRow][randCol] != MINE){
+          gridWithMines[randRow][randCol] = MINE;
+          gridWithMines = adjustAroundPosition(gridWithMines, randRow, randCol);
+          numPlaced++;
+        }
       }
 
       return gridWithMines;
@@ -183,18 +202,6 @@ app.controller("HomeController", ['$scope', function($scope){
           if(i==row && j==col) continue;
           if(gridWithMines[i][j] == MINE) continue;
           gridWithMines[i][j] += 1; // increase it by 1
-
-          // color out the cell's numbers to distinguish them
-          var numericKey = String(gridWithMines[i][j]);
-          console.log("checking color map");
-          if(!(numericKey in $scope.colorMap)){
-              console.log("adding to color map");
-              var r = String(Math.floor(Math.random()*255));
-              var g = String(Math.floor(Math.random()*255));
-              var b = String(Math.floor(Math.random()*255));
-              $scope.colorMap[numericKey] = r + ", " + g + ", " + b;
-              console.log("Generated new color key -> ", numericKey, $scope.colorMap[numericKey]);
-          }
         }
       }
       return gridWithMines;
@@ -204,7 +211,7 @@ app.controller("HomeController", ['$scope', function($scope){
     function _init()
     {
       console.log("initialized home controller.");
-      generateBoard(16, 20, DIFFICULTY_MEDIUM);
+      generateBoard(13, 14, DIFFICULTY_MEDIUM);
       console.log("Board Elements", $scope.boardElements);
       console.log("Hiding out all elements from the user.");
     };
