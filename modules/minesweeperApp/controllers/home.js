@@ -146,7 +146,8 @@ app.controller("HomeController", ['$scope', function($scope){
     /* This will randomly generate a "size" x "size" board with the given size.
     It will randomize a number of mines and place them. This will be a fraction
     of the size of the board (depending on the difficulty). */
-    function generateBoard(numRows, numCols, difficulty){
+    function generateBoard(numRows, numCols, difficulty)
+    {
       console.log("Playing with difficulty: ", difficulty);
       var numberOfElements = numRows*numCols;
       var numberOfMines = Math.ceil(PROPORTION_OF_MINES[difficulty] * numberOfElements);
@@ -168,7 +169,8 @@ app.controller("HomeController", ['$scope', function($scope){
     };
 
     /* Places all the mines randomly on the board. */
-    function placeMinesRandomly(numberOfMines){
+    function placeMinesRandomly(numberOfMines)
+    {
       console.log("placing mines randomly");
       var gridWithMines = [];
 
@@ -198,7 +200,8 @@ app.controller("HomeController", ['$scope', function($scope){
 
     /* Adjusts the numeric values around the given position where a mine has
     been placed. */
-    function adjustAroundPosition(gridWithMines, row, col){
+    function adjustAroundPosition(gridWithMines, row, col)
+    {
       if(gridWithMines[row][col] != MINE) return;
       for(var i=row-1; i<=row+1; i++){
         for(var j=col-1; j<=col+1; j++){
@@ -215,16 +218,25 @@ app.controller("HomeController", ['$scope', function($scope){
     };
 
     /* Sets the difficulty for the game. */
-    $scope.selectDifficulty = function(difficulty){
+    $scope.selectDifficulty = function(difficulty)
+    {
       console.log("Selected Difficulty", difficulty);
       $scope.difficulty = difficulty;
       $scope.selectedDifficulty = true;
     }
 
-    /* Sets up all the parameters for the game. */
-    function setupGame(difficulty, boardHeight, boardWidth){
-      console.log("Setting up game");
+    $scope.selectBoardSize = function(numRows, numCols){
+      console.log("Selected Board Size", numRows, numCols);
+      $scope.numRows = numRows;
+      $scope.numCols = numCols;
+      $scope.selectedBoardSize = true;
+    }
 
+    /* Sets up all the parameters for the game. */
+    $scope.startGame =  function(){
+      console.log("Starting game...");
+      generateBoard($scope.numRows, $scope.numCols, $scope.difficulty);
+      $scope.isGameSetup = true;
     }
 
     /* Somewhat like a constructor for the controller. */
