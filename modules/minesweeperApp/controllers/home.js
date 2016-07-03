@@ -4,13 +4,20 @@ var app = angular.module("minesweeper-app");
 app.controller("HomeController", ['$scope', function($scope){
 
     const MINE = -1;
-    const DIFFICULTY_HARD   = 3;
-    const DIFFICULTY_MEDIUM = 2;
-    const DIFFICULTY_EASY   = 1;
+    const DIFFICULTY_HARD   = 2;
+    const DIFFICULTY_MEDIUM = 1;
+    const DIFFICULTY_EASY   = 0;
+    $scope.difficultyLabels = [ "Easy", "Medium", "Hard" ]; // corresponds to the index
+
     const PROPORTION_OF_MINES = {};
     PROPORTION_OF_MINES[DIFFICULTY_HARD]    = 0.25;
     PROPORTION_OF_MINES[DIFFICULTY_MEDIUM]  = 0.15;
     PROPORTION_OF_MINES[DIFFICULTY_EASY]    = 0.10;
+
+    // Setup Game
+    $scope.isGameSetup = false;
+    $scope.selectedDifficulty = false;
+    $scope.selectedBoardSize = false;
 
     $scope.score          = 0;
     $scope.secondsElapsed = 0;
@@ -158,7 +165,7 @@ app.controller("HomeController", ['$scope', function($scope){
         $scope.exposedView.push(row);
       }
       console.log("Grid With Mines -> ", $scope.boardElements);
-    }
+    };
 
     /* Places all the mines randomly on the board. */
     function placeMinesRandomly(numberOfMines){
@@ -187,7 +194,7 @@ app.controller("HomeController", ['$scope', function($scope){
       }
 
       return gridWithMines;
-    }
+    };
 
     /* Adjusts the numeric values around the given position where a mine has
     been placed. */
@@ -205,6 +212,19 @@ app.controller("HomeController", ['$scope', function($scope){
         }
       }
       return gridWithMines;
+    };
+
+    /* Sets the difficulty for the game. */
+    $scope.selectDifficulty = function(difficulty){
+      console.log("Selected Difficulty", difficulty);
+      $scope.difficulty = difficulty;
+      $scope.selectedDifficulty = true;
+    }
+
+    /* Sets up all the parameters for the game. */
+    function setupGame(difficulty, boardHeight, boardWidth){
+      console.log("Setting up game");
+
     }
 
     /* Somewhat like a constructor for the controller. */

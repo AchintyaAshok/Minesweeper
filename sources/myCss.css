@@ -17,3 +17,9 @@
 {
   background-color: lightgray;
 }
+
+.fixed-size-btn
+{
+  width: 150px;
+  margin-right:15px;
+}

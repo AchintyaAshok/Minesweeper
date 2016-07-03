@@ -1,20 +1,49 @@
 <div class='container col-md-12' id='homeView'>
   <div class='row' id='startGameOptions'>
-    <div class='col-md-12'>
-      <!-- <form class="form-inline">
-        <div class="form-group">
-          <label class="sr-only" for="numRows">Number of Rows</label>
-          <input type="text" class="form-control" id="numRows" placeholder="10">
-          <label class="sr-only" for="numCols">Number of Columns</label>
-          <input type="text" class="form-control" id="numCols" placeholder="10">
-          <p>Select your difficulty level</p>
-          <label class="checkbox-inline">
-            <input type="checkbox" id="easy" value="Easy">
-            <input type="checkbox" id="medium" value="Medium">
-            <input type="checkbox" id="hard" value="Hard">
-          </label>
-        </div>
-      </form> -->
+    <div class='col-md-12' ng-hide='isGameSetup'>
+      <h2>Setup Game <small>Select your game settings. Choose Wisely.</h2><hr/>
+      <span ng-show='selectedDifficulty' class="label label-default">{{difficultyLabels[selectedDifficulty]}}</span>
+      <div id='select-difficulty' ng-hide='selectedDifficulty'>
+        <h4>Select Your Difficulty Level</h4>
+        <p class='text-info'>The harder the difficulty you pick, the more mines there will be.</p>
+        <p class='text-center'>
+          <button
+            type="button"
+            class="btn btn-info btn-lg fixed-size-btn"
+            ng-click='selectDifficulty(0)'>Easy</button>
+          <button
+            type="button"
+            class="btn btn-warning btn-lg fixed-size-btn"
+            ng-click='selectDifficulty(1)'>Medium</button>
+          <button
+            type="button"
+            class='btn btn-danger btn-lg fixed-size-btn'
+            ng-click='selectDifficulty(2)'>Hard</button>
+        </p>
+      </div>
+      <div id='select-game-size' ng-hide='selectedDifficulty && selectedBoardSize'>
+        <h4>Configure The Board Size</h4>
+        <p class='text-info'>This will setup your board</p>
+        <p class='text-center'>
+          <button
+            type="button"
+            class="btn btn-default fixed-size-btn"
+            ng-click='selectDifficulty(0)'>Small (8x8)</button>
+          <button
+            type="button"
+            class="btn btn-default fixed-size-btn"
+            ng-click='selectDifficulty(1)'>Medium (12x12)</button>
+          <button
+            type="button"
+            class='btn btn-default fixed-size-btn'
+            ng-click='selectDifficulty(2)'>Large (20x20)</button>
+        </p>
+        <h5 class='text-center'>&mdash; OR &mdash;</h5>
+        <p>Custom Size</p>
+
+
+      </div>
+
     </div>
   </div>
   <div class='row'>
