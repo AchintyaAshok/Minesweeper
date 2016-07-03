@@ -28,16 +28,6 @@ app.controller("HomeController", ['$scope', function($scope){
     $scope.numMines       = 0; // the number of mines on the board
     $scope.numPositionsExposed = 0;
 
-    // POSSIBLE POINTS
-    const ONE_MINE    = 1;
-    const TWO_MINES   = 2;
-    const THREE_MINES = 3;
-    const FOUR_MINES  = 4;
-    const FIVE_MINES  = 5;
-    const SIX_MINES   = 6;
-    const SEVEN_MINES = 7;
-    const EIGHT_MINES = 8;
-
     // The standard colors for each number in minesweeper
     $scope.colorMap = [
       "white",    // zero mines are adjacent

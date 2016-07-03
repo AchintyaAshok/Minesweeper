@@ -51,7 +51,7 @@
   <div id='board' class='row' ng-show='isGameSetup'>
     <div class='col-md-12'>
       <div class='well well-lg'>
-        <p class='lead'>Minesweeper</p>
+        <p class='lead'>Rules & Hints</p>
         <p class='text-info'>Click anywhere on the board to begin. The objective is the game is to fill out the entire board without hitting a mine.</p>
         <p>Board Size: <em>{{numRows}}x{{numCols}}</em></p>
       </div>
@@ -71,10 +71,14 @@
               ng-click='evaluatePosition(rowIndex, valIndex)'
               ng-class="{'grayed-out': exposedView[rowIndex][valIndex] === false}"
               >
-                  <a ng-show='exposedView[rowIndex][valIndex]'
+                  <a ng-show='exposedView[rowIndex][valIndex] && val != -1'
                   class='btn btn-small'
                   style="color:{{colorMap[val]}};"
                     ><b>{{val}}</b>
+                  </a>
+                  <a ng-show='exposedView[rowIndex][valIndex] && val == -1'
+                  class='btn btn-small'
+                    ><b> <span style='color:red;' class="glyphicon glyphicon-asterisk" aria-hidden="true"></span></b>
                   </a>
                   <a ng-hide='exposedView[rowIndex][valIndex]' class='btn btn-small'
                     >
