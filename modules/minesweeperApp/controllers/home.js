@@ -213,29 +213,48 @@ app.controller("HomeController", ['$scope', function($scope){
       console.log("Selected Difficulty", difficulty);
       $scope.difficulty = difficulty;
       $scope.selectedDifficulty = true;
-    }
+    };
 
-    $scope.selectBoardSize = function(numRows, numCols){
+    /* Configures the size of the game baord. */
+    $scope.selectBoardSize = function(numRows, numCols)
+    {
       console.log("Selected Board Size", numRows, numCols);
+      if(numRows < 5 || numCols < 5 || numRows > 25 || numCols > 25){
+        // so that our board doesn't look awkward or fail to generate
+        generateAlert("alert-danger", "Your board dimensions must be between 5 and 25. ex. 5x5");
+        return;
+      }
       $scope.numRows = numRows;
       $scope.numCols = numCols;
       $scope.selectedBoardSize = true;
-    }
+    };
 
     /* Sets up all the parameters for the game. */
-    $scope.startGame =  function(){
+    $scope.startGame =  function()
+    {
       console.log("Starting game...");
+      generateAlert("alert-success", "Excellent. The Game begins.");
       generateBoard($scope.numRows, $scope.numCols, $scope.difficulty);
       $scope.isGameSetup = true;
-    }
+    };
+
+    /* Generates an alert that shows and then hides after a few seconds. */
+    function generateAlert(alertType, alertMessage)
+    {
+      console.log("Generating Alert", alertType, alertMessage);
+      $scope.alertType = alertType;
+      $scope.alertMessage = alertMessage;
+      $('#main-alert').show();
+      setTimeout(function(){
+        $('#main-alert').hide('fast');
+      }, 3000);
+    };
 
     /* Somewhat like a constructor for the controller. */
     function _init()
     {
       console.log("initialized home controller.");
-      generateBoard(13, 14, DIFFICULTY_MEDIUM);
-      console.log("Board Elements", $scope.boardElements);
-      console.log("Hiding out all elements from the user.");
+      $('#main-alert').hide();
     };
 
     _init();

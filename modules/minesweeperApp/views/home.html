@@ -1,4 +1,8 @@
 <div class='container col-md-12' id='homeView'>
+  <div id='main-alert' class="alert {{alertType}} alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="main-alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{alertMessage}}
+  </div>
   <div class='row' id='startGameOptions'>
     <div class='col-md-12' ng-hide='isGameSetup'>
       <h2>Setup Game <small>Select your game settings. Choose Wisely.</h2><hr/>
@@ -38,7 +42,28 @@
             class='btn btn-default fixed-size-btn'
             ng-click='selectBoardSize(20, 20)'>Large (20x20)</button>
         </p>
-        <p class='text-center lead'>&mdash; <b class='text-info'>OR</b> Select A Custom Size &mdash;</p>
+        <p class='text-center lead'>&mdash; <b class='text-info'>OR</b> select a custom size &mdash;</p>
+        <form class="form-inline text-center">
+          <div class="form-group">
+            <label for="boardHeight">Number of Rows</label>
+            <input ng-model='numRowsChosen'
+              type="text"
+              class="form-control"
+              id="boardHeight"
+              style="width:75px;"
+              placeholder="5">
+          </div>
+          <div class="form-group">
+            <label for="boardWidth">Number of Columns</label>
+            <input ng-model='numColsChosen'
+              type="text"
+              class="form-control"
+              id="boardWidth"
+              style="width:75px;"
+              placeholder="5">
+          </div>
+          <button type="button" class="btn btn-default" ng-click='selectBoardSize(numRowsChosen, numColsChosen)'>Select</button>
+        </form>
       </div>
       <div id='start-game' ng-show='!isGameSetup && selectedDifficulty && selectedBoardSize'>
         <button
@@ -91,9 +116,9 @@
       <hr/>
       <div class='row'>
         <div class='col-md-12' id='board-status-content'>
-          <h4><b class='text-primary'>Board Size</b> {{boardSize}}</h4>
-          <h4><b class='text-primary'>Number of Mines</b> {{numMines}}</h4>
-          <h4><b class='text-primary'>Moves Made</b> {{movesMade}}</h4>
+          <h5><b class='text-primary'>Board Size</b> {{}}</p>
+          <h5><b class='text-primary'>Number of Mines</b> {{numMines}}</p>
+          <h5><b class='text-primary'>Moves Made</b> {{movesMade}}</p>
         </div>
       </div>
   </div>
