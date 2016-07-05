@@ -75,7 +75,8 @@
   </div>
   <div id='newGamePrompt' class='row' ng-show="promptNewGame">
     <h3 ng-show="wonLastGame"><strong class='text-success'>You Won!</strong> Do you want to play again?</h3>
-    <h3 ng-show="!wonLastGame">Oh no.. you hit a mine. <strong class='text-danger'>You Lost</strong> :( Would you like to play again?</h3>
+    <h3 ng-show="!wonLastGame">Oh no.. you hit a mine. <strong class='text-danger'>You Lost</strong> :(<br/>Would you like to play again?</h3>
+    <br/>
     <button type='button'
       class='btn btn-primary btn-lg btn-block'
       ng-click="newGame()">New Game</button>
@@ -125,7 +126,7 @@
       <hr/>
       <div class='row'>
         <div class='col-md-12' id='board-status-content'>
-          <h5><b class='text-primary'>Board Size</b> {{numRows}}x{{numColumns}}</p>
+          <h5><b class='text-primary'>Board Size</b> {{numRows}}x{{numCols}}</p>
           <h5><b class='text-primary'>Number of Mines</b> {{numMines}}</p>
           <h5><b class='text-primary'>Moves Made</b> {{movesMade}}</p>
         </div>
