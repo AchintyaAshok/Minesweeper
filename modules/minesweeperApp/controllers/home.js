@@ -15,11 +15,12 @@ app.controller("HomeController", ['$scope', function($scope){
     PROPORTION_OF_MINES[DIFFICULTY_EASY]    = 0.10;
 
     // Setup Game
-    $scope.isGameSetup = false;
+    $scope.isGameSetup        = false;
     $scope.selectedDifficulty = false;
-    $scope.selectedBoardSize = false;
+    $scope.selectedBoardSize  = false;
+    $scope.wonLastGame        = false;
 
-    $scope.score          = 0;
+    $scope.score          = 0; // for future purposes
     $scope.secondsElapsed = 0;
     $scope.movesMade      = 0; // the number of moves made
     $scope.numRows        = 0;
@@ -80,8 +81,8 @@ app.controller("HomeController", ['$scope', function($scope){
       }
       ++$scope.movesMade;
       if($scope.boardElements[rowPos][valPos] == MINE){
-        alert("Oh no! You hit a mine! You just lost.");
         exposeEverything();
+        askForNewGame(false);
         return;
       }
       expandPosition(rowPos, valPos); // expand around this position if all adjacent elements are alread viewable
@@ -127,8 +128,8 @@ app.controller("HomeController", ['$scope', function($scope){
       console.log("Number of positions exposed", $scope.numPositionsExposed);
       if($scope.numPositionsExposed == ($scope.boardSize - $scope.numMines))
       {
-        alert("You won!");
         exposeEverything();
+        askForNewGame(true);
       }
       // any post processing
     };
@@ -184,7 +185,6 @@ app.controller("HomeController", ['$scope', function($scope){
           numPlaced++;
         }
       }
-
       return gridWithMines;
     };
 
@@ -229,15 +229,6 @@ app.controller("HomeController", ['$scope', function($scope){
       $scope.selectedBoardSize = true;
     };
 
-    /* Sets up all the parameters for the game. */
-    $scope.startGame =  function()
-    {
-      console.log("Starting game...");
-      generateAlert("alert-success", "Excellent. The Game begins.");
-      generateBoard($scope.numRows, $scope.numCols, $scope.difficulty);
-      $scope.isGameSetup = true;
-    };
-
     /* Generates an alert that shows and then hides after a few seconds. */
     function generateAlert(alertType, alertMessage)
     {
@@ -247,7 +238,41 @@ app.controller("HomeController", ['$scope', function($scope){
       $('#main-alert').show();
       setTimeout(function(){
         $('#main-alert').hide('fast');
-      }, 3000);
+      }, 5000);
+    };
+
+    /* Prompts users for a new game */
+    function askForNewGame(wonLastGame)
+    {
+      console.log("ask for new game...");
+      if(wonLastGame){
+        generateAlert("alert-success", "You won!!");
+      }
+      else{
+        generateAlert("alert-danger", "You lost. Next time maybe.");
+      }
+      $scope.wonLastGame = wonLastGame;
+      $scope.promptNewGame = true;
+    };
+
+    /* Sets the parameters for a new game. Resets all the values. */
+    $scope.newGame = function(){
+      console.log("Starting new game.");
+      generateAlert("alert-info", "New game!");
+      $scope.promptNewGame = false;
+      $scope.isGameSetup = false;
+      $scope.selectedDifficulty = false;
+      $scope.selectedBoardSize = false;
+      $scope.score = $scope.movesMade = $scope.secondsElapsed = 0;
+    };
+
+    /* Initiates the game. */
+    $scope.startGame =  function()
+    {
+      console.log("Starting game...");
+      generateAlert("alert-success", "Excellent. The Game begins.");
+      generateBoard($scope.numRows, $scope.numCols, $scope.difficulty);
+      $scope.isGameSetup = true;
     };
 
     /* Somewhat like a constructor for the controller. */
@@ -255,6 +280,7 @@ app.controller("HomeController", ['$scope', function($scope){
     {
       console.log("initialized home controller.");
       $('#main-alert').hide();
+      $scope.newGame();
     };
 
     _init();
