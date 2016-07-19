@@ -1,40 +1,135 @@
-<div id='homeView'>
-  <!-- <p class='lead'>Play your game</p> -->
-  <div class='container col-md-12' id='board'>
-      <div class='row col-md-12'>
-        <div class='well well-lg'>
-          <p class='lead'>Minesweeper</p>
-          <p class='text-info'>Click anywhere on the board to begin. The objective is the game is to fill out the entire board without hitting a mine.</p>
-          <p>Board Size: <em>{{boardSize}}x{{boardSize}}</em></p>
+<div class='container col-md-12' id='homeView'>
+  <div id='main-alert' class="alert {{alertType}} alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="main-alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{alertMessage}}
+  </div>
+  <div class='row' id='startGameOptions'>
+    <div class='col-md-12' ng-hide='isGameSetup'>
+      <h2>Setup Game <small>Select your game settings. Choose Wisely.</h2><hr/>
+      <span class="label label-default">{{difficultyLabels[selectedDifficulty]}}</span>
+      <div id='select-difficulty' ng-hide='selectedDifficulty'>
+        <h4>Select Your Difficulty Level</h4>
+        <p class='text-info'>The harder the difficulty you pick, the more mines there will be.</p>
+        <p class='text-center'>
+          <button
+            type="button"
+            class="btn btn-info btn-lg fixed-size-btn"
+            ng-click='selectDifficulty(0)'>Easy</button>
+          <button
+            type="button"
+            class="btn btn-warning btn-lg fixed-size-btn"
+            ng-click='selectDifficulty(1)'>Medium</button>
+          <button
+            type="button"
+            class='btn btn-danger btn-lg fixed-size-btn'
+            ng-click='selectDifficulty(2)'>Hard</button>
+        </p>
+      </div>
+      <div id='select-game-size' ng-show='selectedDifficulty && !selectedBoardSize'>
+        <h4>Configure The Board Size</h4>
+        <p class='text-info'>This will setup your board</p>
+        <p class='text-center'>
+          <button
+            type="button"
+            class="btn btn-default fixed-size-btn"
+            ng-click='selectBoardSize(8, 8)'>Small (8x8)</button>
+          <button
+            type="button"
+            class="btn btn-default fixed-size-btn"
+            ng-click='selectBoardSize(12, 12)'>Medium (12x12)</button>
+          <button
+            type="button"
+            class='btn btn-default fixed-size-btn'
+            ng-click='selectBoardSize(20, 20)'>Large (20x20)</button>
+        </p>
+        <p class='text-center lead'>&mdash; <b class='text-info'>OR</b> select a custom size &mdash;</p>
+        <form class="form-inline text-center">
+          <div class="form-group">
+            <label for="boardHeight">Number of Rows</label>
+            <input ng-model='numRowsChosen'
+              type="text"
+              class="form-control"
+              id="boardHeight"
+              style="width:75px;"
+              placeholder="5">
+          </div>
+          <div class="form-group">
+            <label for="boardWidth">Number of Columns</label>
+            <input ng-model='numColsChosen'
+              type="text"
+              class="form-control"
+              id="boardWidth"
+              style="width:75px;"
+              placeholder="5">
+          </div>
+          <button type="button" class="btn btn-default" ng-click='selectBoardSize(numRowsChosen, numColsChosen)'>Select</button>
+        </form>
+      </div>
+      <div id='start-game' ng-show='!isGameSetup && selectedDifficulty && selectedBoardSize'>
+        <button
+          type="button"
+          class="btn btn-success btn-lg btn-block"
+          ng-click='startGame()'>Play Game</button>
+      </div>
+    </div>
+  </div>
+  <div id='newGamePrompt' class='row' ng-show="promptNewGame">
+    <h3 ng-show="wonLastGame"><strong class='text-success'>You Won!</strong> Do you want to play again?</h3>
+    <h3 ng-show="!wonLastGame">Oh no.. you hit a mine. <strong class='text-danger'>You Lost</strong> :(<br/>Would you like to play again?</h3>
+    <br/>
+    <button type='button'
+      class='btn btn-primary btn-lg btn-block'
+      ng-click="newGame()">New Game</button>
+      <br/>
+      <hr/>
+  </div>
+  <div id='board' class='row' ng-show='isGameSetup'>
+    <div class='col-md-12'>
+      <div class='well well-lg'>
+        <p class='lead'>Rules & Hints</p>
+        <p class='text-info'>Click anywhere on the board to begin. The objective is the game is to fill out the entire board without hitting a mine.</p>
+        <p>Board Size: <em>{{numRows}}x{{numCols}}</em></p>
+      </div>
+    </div>
+    <!-- minesweeper board goes here -->
+      <div class='col-md-12'>
+        <table>
+          <thead>
+            <th ng-repeat="row in boardElements"></th>
+          </thead>
+          <tbody>
+            <tr class='minesweeper-row text-center'
+            ng-repeat='(rowIndex, row) in boardElements track by $index'
+            >
+              <td class='text-center'
+              ng-repeat='(valIndex, val) in row track by $index'
+              ng-click='evaluatePosition(rowIndex, valIndex)'
+              ng-class="{'grayed-out': exposedView[rowIndex][valIndex] === false}"
+              >
+                  <a ng-show='exposedView[rowIndex][valIndex] && val != -1'
+                  class='btn btn-small'
+                  style="color:{{colorMap[val]}};"
+                    ><b>{{val}}</b>
+                  </a>
+                  <a ng-show='exposedView[rowIndex][valIndex] && val == -1'
+                  class='btn btn-small'
+                    ><b> <span style='color:red;' class="glyphicon glyphicon-asterisk" aria-hidden="true"></span></b>
+                  </a>
+                  <a ng-hide='exposedView[rowIndex][valIndex]' class='btn btn-small'
+                    >
+                  </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <hr/>
+      <div class='row'>
+        <div class='col-md-12' id='board-status-content'>
+          <h5><b class='text-primary'>Board Size</b> {{numRows}}x{{numCols}}</p>
+          <h5><b class='text-primary'>Number of Mines</b> {{numMines}}</p>
+          <h5><b class='text-primary'>Moves Made</b> {{movesMade}}</p>
         </div>
       </div>
-      <div class='row col-md-12'>
-        <!-- minesweeper board goes here -->
-        <div class='text-centered col-md-8'>
-          <table>
-            <thead>
-              <th ng-repeat="row in boardElements"></th>
-            </thead>
-            <tbody>
-              <tr class='minesweeper-row text-center' ng-repeat='(rowIndex, row) in boardElements track by $index'>
-                <td class='text-center'
-                ng-repeat='(valIndex, val) in row track by $index'
-                ng-click='evaluatePosition(rowIndex, valIndex)'
-                >
-                    <a ng-show='exposedView[rowIndex][valIndex]' class='btn btn-small'
-                      >{{val}}
-                    </a>
-                    <a ng-hide='exposedView[rowIndex][valIndex]' class='btn btn-small'
-                      >?
-                    </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-      </div>
-      <div class='col-md-4' id='board-status-content' style='border-left: solid 0.25px black'></div>
-        <h4><b class='text-primary'>Board Size</b> {{boardSize}}</h4>
-        <h4><b class='text-primary'>Number of Mines</b> {{numMines}}</h4>
-        <h4><b class='text-primary'>Moves Made</b> {{movesMade}}</h4>
-      </div>
+  </div>
 </div>

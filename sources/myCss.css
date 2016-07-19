@@ -1,13 +1,25 @@
 .minesweeper-row{
-  height: 100px;
+  height: 40px;
 }
 .minesweeper-row td
 {
-  border: solid 0.5px black;
+  border: solid 0.25px black;
   padding: 10px;
-  width: 100px;
+  width: 40px;
 }
 
-.hidden{
-  background-color: gray;
+.minesweeper-row td a
+{
+  padding: 0px;
+}
+
+.grayed-out
+{
+  background-color: lightgray;
+}
+
+.fixed-size-btn
+{
+  width: 150px;
+  margin-right:15px;
 }
