@@ -3,6 +3,10 @@
 Welcome to minesweeper! This is where you can play our online version of minesweeper. To make it more of a challenge (and let's be honest more "fun"), you can challenge your friends to play on the same minesweeper board to beat your score.
 
 ### How To Install It
+Make sure that you have the `http-server` module installed on your machine:
+```bash
+npm install -g http-server -o
+```
 
 Since we're using the power of node, simply run the following command:
 ```bash
